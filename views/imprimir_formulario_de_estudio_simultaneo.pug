@@ -1,0 +1,97 @@
+extends layout
+
+block content
+  row
+    .col-md-2.col-xs-2
+      img(src="/images/logo-umss.png", width='100%')
+    .col-md-7.col-xs-7.text-center
+      h3.clear UNIVERSIDAD MAYOR DE SAN SIMÓN
+      h3.clear VICERRECTORADO
+      h3.clear DPTO. REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+    .col-md-3.col-xs-3.text-right
+      h2 FOR. 05
+      h3.text-center 
+        b Nº#{body.serial}
+      #qrcode(style="width: 60%; float:right")
+      script.
+        var t="emitido por:  #{user.name} \n"
+        t+="fecha: #{body.day}/#{body.month+1}/#{body.year} \n"
+        t+="para: #{body.nombre}"
+        new QRCode(document.getElementById("qrcode"), t)
+  row(style="width:100%")
+    .col-md-12.col-xs-12
+    .col-md-1.col-xs-1
+      
+    .col-md-10.col-xs-10
+      h1.text-center
+        b FORMULARIO PARA ESTUDIO SIMULTANEO EN DOS CARRERAS
+      br
+      br
+      h2
+        b 1.- SOLICITUD
+      br
+      h2 Yo 
+        b #{body.nombre} 
+        | estudiante regular de la carrera de: 
+        b #{body.carrera} 
+        | solicito estudiar paralelamente la carrera de 
+        b #{body.acarrera} 
+        | para cuyo efecto adjunto los requisitos que exige el reglamento pertinente.
+        p.text-right Cochabamba #{body.day} de #{mes[body.month]} de #{body.year}
+        br
+        br
+        br
+        p.text-right.clear .............................
+        if(body.sexo==1)
+          h3.text-right.clear
+            b INTERESADO
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        else
+          h3.text-right.clear
+            b INTERESADA
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        
+      h2
+        b 2.- AUTORIZACIÓN
+      br
+      h2 El suscrito Jefe del Departamento de Registros e Inscripciones, autoriza la inscripción de: 
+        b #{body.nombre} 
+        | en las Carreras de: 
+        b #{body.carrera} 
+        | y 
+        b #{body.acarrera} 
+        | de conformidad a lo que establece el reglamento de Inscripcion Simultanea en dos carerras.
+      h2.text-right Cochabamba, .... de ........... de .......
+      br
+      br
+      br
+      br
+      h2.text-right ..................................................
+      h4.text-right.clear
+        b JEFE DPTO. DE REGISTROS E INSCRIPCIONES
+      h3.text-right.clear
+            b U.M.S.S
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+    .col-md-1.col-xs-1
+    row
+  

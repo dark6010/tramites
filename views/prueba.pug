@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  script(src="js/qrcode.min.js")
+  h3 hola
+  #qrcode
+  script.
+    new QRCode(document.getElementById("qrcode"), "https://www.youtube.com/watch?v=c_Dxd0keXyk")

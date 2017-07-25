@@ -1,0 +1,108 @@
+extends layout
+
+block content
+  row(style="width:100%")
+    .col-md-2.col-xs-2
+      img(src="/images/logo-umss.png", width='100%')
+    .col-md-8.col-xs-8.text-center
+      h1.clear UNIVERSIDAD MAYOR DE SAN SIMÓN
+      h1.clear
+        b.clear VICERRECTORADO
+      h2.clear DIRECCIÓN DE PLANIFICACIÓN ACADEMICA
+      h3.clear
+        b.clear DEPARTAMENTO DE REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+      h1 
+        stroke 
+          b 
+            u CERTIFICADO DE ESTUDIOS
+      br
+      br
+      h4 EL SUSCRITO JEFE DEL DEPARTAMENTO DE REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+      h1
+        b CERTIFICA:
+        
+    .col-md-2.col-xs-2
+      h1.text-center 
+        k cert. 01 
+      h3.text-center 
+        b Nº#{body.serial}
+      #qrcode
+      script.
+        var t="emitido por:  #{user.name} \n"
+        t+="fecha: #{body.day}/#{body.month+1}/#{body.year} \n"
+        t+="para: #{body.nombre}"
+        new QRCode(document.getElementById("qrcode"), t)
+      
+  row
+    .col-md-12.col-xs-12
+  row
+    .col-md-1.col-xs-1
+      br
+    .col-md-10.col-xs-10
+      h3.text-justify
+        if(body.sexo==1)
+          | Que, el Universitario  
+          b #{body.nombre} 
+        else
+          | Que, la Universitaria  
+          b #{body.nombre} 
+        | de nacionalidad  
+        b #{body.nacionalidad} 
+        if(body.ci)
+          | con C.I. 
+          b #{body.ci}. 
+        else
+          | con Pasaporte Nº 
+          b #{body.pasaporte}. 
+        if(body.sexo==1)
+          | Esta inscrito como alumno regular en la carrera de 
+          b #{body.carrera} 
+        else
+          | Esta inscrita como alumna regular en la carrera de 
+          b #{body.carrera} 
+        | de esta casa Superior de Estudios, correspondiente a la gestión  
+        b #{body.periodo}. 
+        br
+        br
+        br
+        br
+        br
+        br
+        
+        p Es cuanto certifico, para fines consiguientes.
+        br
+        p.text-center Cochabamba, #{body.day} de #{mes[body.month]} del #{body.year}
+        br
+        br
+        br
+        br
+        br
+        br
+        h3.text-center
+          b JEFE DEPARTAMENTO DE REGISTROS E INSCRIPCIONES
+        h3.text-center
+          b UNIVERSIDAD MAYOR DE SAN SIMÓN
+        br
+        br
+        
+        
+    .col-md-1.col-xs-1
+  row
+    .col-md-12.col-xs-12
+      hr
+      h4.text-center
+        b Av. Oquendo Prolongación Jordán, Edif. Multiacadémico, Planta Baja, Telf./Fax(591-4) 4667123/4232540 al 47 (Int.353)
+      h4.text-center
+        b Casilla: 992 E-mail: 
+          u drei@umss.edu.bo
+          | - web: 
+          u http://websis.umss.edu.bo
+          |  Cochabamba - Bolivia
+    
+

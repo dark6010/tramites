@@ -1,0 +1,43 @@
+extends layout
+block content
+  form(method="POST", action='formulario_de_admision_especial')
+    h3 informes de certificados emitidos
+    h4
+      |  certificados:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      |  persona:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+    h4 
+      b
+        u del:
+      |  año:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      | mes:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      | dia:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      b &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        u al:
+      |  año:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      | mes:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+      | dia:
+      select#carrera( name='carrera', required)
+        for user, index in users
+          option(value=user._id)= user.name
+    input(type='submit', name='enviar', value='enviar')

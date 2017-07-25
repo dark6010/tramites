@@ -1,0 +1,146 @@
+extends layout
+
+block content
+  row
+    .col-md-2.col-xs-2
+      img(src="/images/logo-umss.png", width='100%')
+    .col-md-7.col-xs-7.text-center
+      h3.clear UNIVERSIDAD MAYOR DE SAN SIMÓN
+      h3.clear VICERRECTORADO
+      h3.clear DPTO. REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+    .col-md-3.col-xs-3.text-right
+      h2 FOR. 11
+      h3.text-center 
+        b Nº#{body.serial}
+      #qrcode(style="width: 60%; float:right")
+      script.
+        var t="emitido por:  #{user.name} \n"
+        t+="fecha: #{body.day}/#{body.month+1}/#{body.year} \n"
+        t+="para: #{body.nombre}"
+        new QRCode(document.getElementById("qrcode"), t)
+  row(style="width:100%")
+    .col-md-12.col-xs-12
+    .col-md-1.col-xs-1
+      
+    .col-md-10.col-xs-10
+      h2.text-center
+        b FORMULARIO PARA EXAMEN DE GRACIA
+      br
+      br
+      h3
+        b 1.- SOLICITUD
+      h3 Yo 
+        b #{body.nombre} 
+        | estudiante regular de la Carrera de: 
+        b #{body.carrera} 
+        | solicito Examen de Gracia 
+        if body.tipoe=="teorico"
+          b Teórico 
+        else
+          b Práctico 
+        | en la materia de: 
+        b #{body.materia} 
+        | faltándome dicha asignatura para concluir mi Plan de Estudios.
+        br
+        br
+        p.text-right Cochabamba #{body.day} de #{mes[body.month]} del #{body.year} 
+        br
+        br
+        br
+        p.text-right.clear .............................................................
+        
+        if(body.sexo==1)
+          h3.text-right.clear
+            b INTERESADO
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        else
+          h3.text-right.clear
+            b INTERESADA
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        
+      h3
+        b 2.- AUTORIZACION:
+        br
+        br
+        | Realizando el correspondiente Seguimiento Académico de: 
+        b #{body.nombre} 
+        | se evidencia que efectivamente le falta la materia solicitada, para concluir su correspondiente Plan de Estudios. En consecuencia, se autoriza al Jefe de Departamento y Catedrático, señalar fecha y hora para la prueba a rendirse.
+      h3.text-right Cochabamba, .... de ........... de .......
+      br
+      br  
+      h3.text-right .............................................................
+      h4.text-right.clear
+        b DECANO(A)
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+      h3
+        b 3.- V
+          vertical(style="vertical-align:text-top; font-size:.78em")
+            sub O
+        b B
+          vertical(style="vertical-align:text-top; font-size:.78em")
+            sub O
+        b  VICERRECTOR(A)
+      
+      h3 Por el informe que antecede se considera procedente dar curso al Examen de Gracia en la materia de 
+        b #{body.materia} 
+        | a favor del estudiante: 
+        b #{body.nombre} 
+      h3.text-right Cochabamba, .... de ........... de .......
+      br
+      br
+      br
+      br
+      h3.text-right ..........................................................
+      h4.text-right.clear
+        b VICE RECTOR(A)
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+     
+    .col-md-1.col-xs-1
+    row
+  

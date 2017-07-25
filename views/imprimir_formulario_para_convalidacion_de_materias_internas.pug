@@ -1,0 +1,150 @@
+extends layout
+
+block content
+  row
+    .col-md-2.col-xs-2
+      img(src="/images/logo-umss.png", width='100%')
+    .col-md-7.col-xs-7.text-center
+      h3.clear UNIVERSIDAD MAYOR DE SAN SIMÓN
+      h3.clear VICERRECTORADO
+      h3.clear DPTO. REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+    .col-md-3.col-xs-3.text-right
+      h2 FOR. 11
+      h3.text-center 
+        b Nº#{body.serial}
+      #qrcode(style="width: 60%; float:right")
+      script.
+        var t="emitido por:  #{user.name} \n"
+        t+="fecha: #{body.day}/#{body.month+1}/#{body.year} \n"
+        t+="para: #{body.nombre}"
+        new QRCode(document.getElementById("qrcode"), t)
+  row(style="width:100%")
+    .col-md-12.col-xs-12
+    .col-md-1.col-xs-1
+      
+    .col-md-10.col-xs-10
+      h2.text-center
+        b SOLICITUD DE CONVALIDACION DE MATERIAS
+      br
+      br
+      h3
+        b 1.- SOLICITUD
+      h3 Yo 
+        b #{body.nombre}, 
+        | natural de 
+        b #{body.ciudado} 
+        | alumno de la Universidad 
+        b Mayor de San Simón 
+        | de la carrera de 
+        b #{body.carrera} 
+        | solicito convalidación de asignaturas cursadas y aprobadas, para lo cual adjunto los documentos que exige el reglamento pertinente.
+        br
+        br
+        p.text-right Cochabamba #{body.day} de #{mes[body.month]} del #{body.year} 
+        br
+        br
+        br
+        p.text-right.clear .............................................................
+        
+        if(body.sexo==1)
+          h3.text-right.clear
+            b INTERESADO
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        else
+          h3.text-right.clear
+            b INTERESADA
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        
+      h3.clear
+        b 2.- INFORME:
+        br
+        br
+        | Al(A la) señor(a) Vice Rector(a) de la Universidad Mayor de San Simón: 
+      h3.clear
+        | Efectuada la revisión de la documentación presentada por 
+        if(body.sexo==1)
+          | el interesado, 
+        else
+          | la interesada, 
+        | solicita convalidación de asignaturas de 
+        b #{body.tipo}.
+        br
+        
+      h3.text-right Cochabamba, ...... de ............. de .........
+      br
+      br  
+      h3.text-right .............................................................
+      h4.text-right.clear
+        b DECANO(A)
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+          | &nbsp;
+      h3
+        b 3.- AUTORIZACIÓN:
+        
+      h3 Previo informe de la carrera 
+        b #{body.acarrera} 
+        | perteneciente a la 
+        b #{body.facultad} 
+        if (body.sexo==1)
+          | en favor del estudiante 
+        else
+          | en favor de la estudiante 
+        b #{body.nombre}.
+      h3.text-right Cochabamba, ...... de ............. de .........
+      br
+      br
+      br
+      br
+      h3.text-right ..........................................................
+      h4.text-right.clear
+        b VICE RECTOR(A)
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+     
+    .col-md-1.col-xs-1
+    row
+  

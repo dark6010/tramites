@@ -1,0 +1,80 @@
+
+extends layout
+block content
+  h1.text-center Formulario de Solicitud de convalidacion de materias Internas
+  form(method="POST", action='solicitud_de_convalidacion_de_materias_internas')
+    row
+      .col-md-6.col-xs-6
+        row
+          .col-md-3.col-xs-3.text-right
+            label(for='nombre') nombre:
+          .col-md-9.col-xs-9.text-left
+            input#nombre(type='text', name='nombre', required)
+        row(style="width:100%")
+          col-md-3.col-xs-3.text-right
+            label(for='carrera') de la carrera:
+          .col-md-9.col-xs-9
+            select#carrera( name='carrera', required)
+              for dato,index in carreras
+                option(value=dato)= dato
+        row
+          .col-md-12.col-xs-12
+        row(style="width:100%")
+          col-md-3.col-xs-3.text-right
+            label(for='acarrera') a la carrera:
+          .col-md-9.col-xs-9
+            select#acarrera( name='acarrera', required)
+              for dato,index in carreras
+                option(value=dato)= dato
+        row
+          .col-md-12.col-xs-12
+        row
+          .col-md-3.col-xs-3.text-right
+            label(for='ci') ci:
+          .col-md-9.col-xs-9
+            input#ci(type='text', name='ci')
+        row
+          .col-md-3.col-xs-3.text-right
+            label(for='pasaporte') pasaporte:
+          .col-md-9.col-xs-9
+            input#pasaporte(type='text', name='pasaporte')
+        
+      .col-md-6.col-xs-6
+        row(style="width:100%")
+          col-md-3.col-xs-3.text-right
+            label(for='facultad') a la facultad:
+          .col-md-9.col-xs-9
+            select#facultad( name='facultad', required)
+              for dato,index in facultad
+                option(value=dato)= dato
+        row
+          .col-md-12.col-xs-12
+        row
+          .col-md-3.col-xs-3.text-right
+            label(for='ciudado') ciudad origen:
+          .col-md-9.col-xs-9
+            input#ciudado(type='text', name='ciudado', required)
+        row
+          .col-md-3.col-xs-3.text-right
+            b orgn. Asignts.:
+          .col-md-9.col-xs-9.text-left
+            label(for="ocmf") Otra carrera de la misma facultad
+            input(type="radio", name="tipo", value="Otra carrera de la misma Facultad", required, id="ocmf")
+            label(for="ofmu") Otra facultad de la misma Universidad
+            input(type="radio", name="tipo", value="Otra facultad de la misma Universidad", required, id="ofmu")
+        row
+          .col-md-3.col-xs-3.text-right
+            b sexo:
+          .col-md-9.col-xs-9.text-left
+            label(for="sexom") masculino
+            input(type="radio", name="sexo", value="1", required, id="sexom")
+            label(for="sexof") femenino
+            input(type="radio", name="sexo", value="0", required, id="sexof")
+        
+    row
+      .col-md-12.col-xs-12.text-right
+    row
+      .col-md-3.col-xs-3.text-right 
+        br
+        input(type='hidden', name='serial', value= user.serial)
+        input(type='submit', name='enviar', value='enviar')

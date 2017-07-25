@@ -1,0 +1,131 @@
+extends layout
+
+block content
+  row
+    .col-md-2.col-xs-2
+      img(src="/images/logo-umss.png", width='100%')
+    .col-md-7.col-xs-7.text-center
+      h3.clear UNIVERSIDAD MAYOR DE SAN SIMÓN
+      h3.clear VICERRECTORADO
+      h3.clear DPTO. REGISTROS E INSCRIPCIONES
+      br
+      br
+      br
+    .col-md-3.col-xs-3.text-right
+      h2 FOR. 11
+      h3.text-center 
+        b Nº#{body.serial}
+      #qrcode(style="width: 60%; float:right")
+      script.
+        var t="emitido por:  #{user.name} \n"
+        t+="fecha: #{body.day}/#{body.month+1}/#{body.year} \n"
+        t+="para: #{body.nombre}"
+        new QRCode(document.getElementById("qrcode"), t)
+  row(style="width:100%")
+    .col-md-12.col-xs-12
+    .col-md-1.col-xs-1
+      
+    .col-md-10.col-xs-10
+      h2.text-center
+        b FORMULARIO DE TRASPASO A OTRA UNIVERSIDAD DEL PAIS
+      br
+      br
+      h3
+        b 1.- SOLICITUD
+      h3 Al señor Jefe del Departamento de Registros e inscripciones de la Universidad Mayor de San Simón:
+      h3 Yo 
+        b #{body.nombre} 
+        | natural de 
+        b #{body.ciudado} 
+        if body.ci
+          | C.I. Nº: 
+          b #{body.ci} 
+        else
+          | Pasaporte: 
+          b #{body.pasaporte} 
+        | estudiante de la carrera de 
+        b #{body.carrera} 
+        | solicito traspaso a la Universidad 
+        b #{body.universidad} 
+        | a la Carrera de 
+        b #{body.acarrera} 
+        | de acuerdo a la siguiente información:
+      h3.clear MATERIAS APROBADAS:
+        b #{body.materiasa} 
+        | MATERIAS REPROBADAS:
+        b #{body.materiasr} 
+        br
+        br
+        p.text-right Cochabamba #{body.day} de #{mes[body.month]} de #{body.year}
+        br
+        br
+        br
+        p.text-right.clear .............................................................
+        
+        if(body.sexo==1)
+          h3.text-right.clear
+            b INTERESADO
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        else
+          h3.text-right.clear
+            b INTERESADA
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+              | &nbsp;
+        
+      h3
+        b 2.- INFORME:
+        br
+        br
+        | Al (la) señor(a) Vicerrector(a) de la Universidad Mayor de San Simón: 
+      h3.clear Realizadas las consultas a la Universidad de destino, me permito informar que la solicitu de Traspaso de esta Universidad, ha sido ACEPTADA.
+      h3.text-right Cochabamba, ...... de ............. de .........
+      br
+      br  
+      h3.text-right .............................................................
+      h4.text-right.clear
+        b JEFE DPTO. DE REGISTROS E INSCRIPCIONES
+      h3
+        b 3.- AUTORIZACIÓN
+      
+      h3 Al Jefe de Departamento de Registros e Inscripciones de la Universidad de 
+        b #{body.universidad} 
+        | acéptase la solicitud de Traspaso en las condiciones señaladas en el Reglamento pertinente, por lo que agradecemos su inscripción en es Universidad, previo el cumplimiento de los registros complementarios
+      h3.text-right Cochabamba, ...... de ............ de .........
+      br
+      br
+      br
+      br
+      h3.text-right ..........................................................
+      h4.text-right.clear
+        b VICE RECTOR(A)
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+        | &nbsp;
+     
+    .col-md-1.col-xs-1
+    row
+  
