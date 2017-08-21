@@ -1,0 +1,109 @@
+extends layout
+block content
+  //
+    setear los th
+    setear los td
+    setear los botones indexs
+    setear elementos
+    setear ordenar con el paradigma de repetidos desordenados
+    setear scope propertyname  y reverse
+    el size debe estar de acuerdo al indexer inicial
+  script(src="js/angular.min.js")
+  script.
+    angular.module('listasdinamicas', [])
+    .controller('controlador', ['$scope', function($scope) {
+      var elementos = [
+        {name: 'Alice',   phone: '555-1212',  age: 10},
+        {name: 'Betto',   phone: '555-1212',  age: 12},
+        {name: 'Carl',   phone: '555-1212',  age: 13},
+        {name: 'Daniel',   phone: '555-1212',  age: 10},
+        {name: 'Esteban',   phone: '555-1212',  age: 10},
+        {name: 'Fabiana',   phone: '555-1212',  age: 10},
+        {name: 'Guido',   phone: '555-1212',  age: 10},
+        {name: 'Henry',   phone: '555-1212',  age: 10},
+        {name: 'Isabel',   phone: '555-1212',  age: 10},
+        {name: 'John',   phone: '555-1212',  age: 10},
+        
+        {name: 'Kael',   phone: '555-1212',  age: 10},
+        {name: 'Lenny',   phone: '555-1212',  age: 10},
+        {name: 'Nancy',   phone: '555-1212',  age: 10},
+        {name: 'Mary',   phone: '555-9876',  age: 19},
+        {name: 'Mike',   phone: '555-4321',  age: 21},
+        {name: 'Wally',   phone: '555-5678',  age: 35},
+        {name: 'Laya',   phone: '555-5678',  age: 35},
+        {name: 'Morelva',   phone: '555-5678',  age: 35},
+        {name: 'Adam',   phone: '555-5678',  age: 35},
+        //{name: 'Julie',  phone: '555-8765',  age: 29}
+      ];
+      function sizera(n){
+          $scope.size=n
+          var text=""
+          elementos.forEach(function(var, index){
+              text+='<button ng-click="indexs('+index+')"> '+(index+1)+' </button>'
+          })
+          $("#indexer")[0].innerHTML=text
+      }
+      function ordenar(){
+        if($scope.reverse){
+            elementos.sort(function(b, a){
+            if($scope.propertyName=='name')
+              return a.name.localeCompare(b.name)
+            if($scope.propertyName=='phone')
+              return a.phone.localeCompare(b.phone)
+            if($scope.propertyName=='age')
+              return a.age - b.age
+            })
+        }else{
+            elementos.sort(function(a, b){
+            if($scope.propertyName=='name')
+              return a.name.localeCompare(b.name)
+            if($scope.propertyName=='phone')
+              return a.phone.localeCompare(b.phone)
+            if($scope.propertyName=='age')
+              return a.age - b.age
+            })
+        }
+      }
+      $scope.propertyName = 'name';
+      $scope.reverse = false;
+      $scope.size=5
+      ordenar()
+      $scope.elementos = elementos
+      $scope.sortBy = function(propertyName) {
+        $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
+        ordenar()
+        $scope.indexs($scope.seccion)
+      };
+      $scope.indexs = function(seccion){
+        $scope.seccion=seccion
+        $scope.elementos = elementos.slice($scope.size*seccion, $scope.size*seccion+$scope.size)
+      }
+      $scope.seccion=0
+      $scope.indexs($scope.seccion)
+    }]);
+  div(ng-app="listasdinamicas", ng-controller="controlador")
+    #sizera
+      button(ng-click="sizera(3)") 3
+      button(ng-click="sizera(5)") 5
+      button(ng-click="sizera(10)") 10
+    table.elementos
+      tr
+        th
+          button(ng-click="sortBy('name')") Name
+          span.sortorder(ng-show="propertyName === 'name'", ng-class="{reverse: reverse}")
+        th
+          button(ng-click="sortBy('phone')") Phone Number
+          span.sortorder(ng-show="propertyName === 'phone'", ng-class="{reverse: reverse}")
+        th
+          button(ng-click="sortBy('age')") Age
+          span.sortorder(ng-show="propertyName === 'age'", ng-class="{reverse: reverse}")
+      tr(ng-repeat="elemento in elementos | orderBy:propertyName:reverse")
+        td {{elemento.name}}
+        td {{elemento.phone}}
+        td {{elemento.age}}
+    #indexer
+      button(ng-click="indexs(0)") primeros5
+      button(ng-click="indexs(1)") segundos5
+      button(ng-click="indexs(2)") terceros5
+      button(ng-click="indexs(3)") cuartos5

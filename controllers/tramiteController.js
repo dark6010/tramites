@@ -1,4 +1,5 @@
-var tramiteModel = require('../models/tramiteModel.js');
+var tramiteModel = require('../models/tramiteModel.js')
+var userModel = require('../models/User.js')
 var configModel= require('../models/configModel.js')
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
@@ -149,6 +150,7 @@ module.exports = {
     },
    
     certificado_de_estudios: function(req, res){
+      //console.log(user)
       configModel.findOne({_id: certificado_de_estudios}, function (err, config) {
             if (!err) {
                 if (config) {
@@ -209,6 +211,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_certificado_de_estudios', user)
                                     }, config)
+                                    actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                   }else{
                                     res.render('error', {error: "existe algun error al guardar el documento certificado de estudio"})
                                   }
@@ -297,6 +304,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_de_admision_especial', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento de admision especial"})
                                 }
@@ -383,6 +395,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_de_reincorporacion', user)
                                     }, config)
+                                    actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                   }else{
                                     res.render('error', {error: "existe algun error al guardar el documento formulario de reincorporacion"})
                                   }
@@ -496,6 +513,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_de_estudio_simultaneo', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento formulario de estudios simultaneos"})
                                 }
@@ -609,6 +631,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_de_traspaso_a_otra_universidad_del_pais', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento formulario de traspaso a otra universidad del pais"})
                                 }
@@ -745,6 +772,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_para_examen_de_gracia', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento formulario para examen de gracia"})
                                 }
@@ -832,6 +864,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_para_convalidacion_de_materias_internas', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento de convalidacion de materias internas"})
                                 }
@@ -920,6 +957,11 @@ module.exports = {
                                       if(err) console.log("existe algun tipo de error al generar el calendario de fechas")
                                       else res.render('imprimir_formulario_para_convalidacion_de_materias_externas', user)
                                     }, config)
+                                  actualizar_fecha_usuario(function (err){
+                                        if(!err){
+                                            console.log("resulta que no hay ningun error en el calendario de usuario")
+                                        }
+                                    }, req.user._id)
                                 }else{
                                   res.render('error', {error: "existe algun error al guardar el documento de convalidacion de materias externas"})
                                 }
@@ -1153,6 +1195,68 @@ function actualizar_fecha(cb, config){
           cb(err)
       }else{
           cb(false)
+      }
+  })
+}
+function actualizar_fecha_usuario(cb, _iduser){
+  userModel.findOne({_id: _iduser}, function(err, user){
+      if(!err){
+          var date= new Date()
+          var calendar=user.calendar
+          if (!user.calendar || !user.calendar.anio){
+            calendar={}
+            calendar.anio=[{
+                'cod': date.getFullYear(),
+                'mes': [{
+                  'cod': date.getMonth(),
+                  'dia': [date.getDate()]
+                }]
+              }]
+          }else{
+            var i =0
+            var j =0
+            var k =0
+            var flag= true
+            while(flag && i<=calendar.anio.length){
+                if(i == calendar.anio.length){
+                    calendar.anio.push({mes:[{ dia:[date.getDate()], cod:date.getMonth()}], cod:date.getFullYear()})
+                }
+                if(calendar.anio[i].cod == date.getFullYear()){
+                    while(flag && j<=calendar.anio[i].mes.length){
+                        if(j == calendar.anio[i].mes.length){
+                            calendar.anio[i].mes.push({dia:[date.getDate()], cod: date.getMonth()})
+                        }
+                        if(calendar.anio[i].mes[j].cod ==date.getMonth()){
+                            while(flag && k<=calendar.anio[i].mes[j].dia.length){
+                                if(k == calendar.anio[i].mes[j].dia.length){
+                                    calendar.anio[i].mes[j].dia.push(date.getDate())
+                                }
+                                if(calendar.anio[i].mes[j].dia[k]==date.getDate()){
+                                    flag=false;
+                                }
+                            k++
+                            }
+                        k=0
+                        }
+                    j++
+                    }
+                j=0
+                }
+            i++;
+            }
+          }
+          user.calendar=null
+          user.calendar=calendar
+          console.log("anio:"+date.getFullYear()+" -- mes:"+date.getMonth()+" -- dia:"+date.getDate())
+          user.save(function(err, user){
+              if (!err){
+                  cb(false)
+              }else{
+                  cb(true)
+              }
+          })
+      }else{
+          cb(true)
       }
   })
 }

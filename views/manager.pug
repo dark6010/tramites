@@ -1,43 +1,437 @@
 extends layout
 block content
-  form(method="POST", action='formulario_de_admision_especial')
-    h3 informes de certificados emitidos
-    h4
-      |  certificados:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      |  persona:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-    h4 
-      b
-        u del:
-      |  año:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      | mes:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      | dia:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      b &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-        u al:
-      |  año:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      | mes:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-      | dia:
-      select#carrera( name='carrera', required)
-        for user, index in users
-          option(value=user._id)= user.name
-    input(type='submit', name='enviar', value='enviar')
+  -
+    if(configalldate.anio.length){
+      var lastyear=configalldate.anio.length-1
+      var lastmonth=configalldate.anio[lastyear].mes.length-1
+      var lastday=configalldate.anio[lastyear].mes[lastmonth].dia.length-1
+    }
+    // confill alldate esta basado solo en todos los tramites de la colecion copnfigs
+  if(configalldate.anio.length)
+    form(method="post", action='manager')
+      h3 informes de certificados emitidos
+      h4
+        |  tramite:
+        select#tramite( name='tramite', required)
+          for config, index in configs
+            if(config.calendar && config.calendar.anio)
+              option(value=config._id)= config.name
+          option(value=todos, selected) todos
+        |  persona:
+        select#persona( name='persona', required)
+          for user, index in users
+            if(user.calendar && user.calendar.anio)
+              option(value=user._id)= user.name
+          option(value=todos, selected) todos
+      h4 
+        b
+          u del:
+        |  año:
+        select#anioini( name='anioini', required)
+          for anio, index in configalldate.anio
+            if(index == lastyear)
+              option(value=anio.cod, selected)= anio.cod
+            else
+              option(value=anio.cod)= anio.cod
+        | mes:
+        select#mesini( name='mesini', required)
+          for mesi, index in configalldate.anio[lastyear].mes
+            if(index == lastmonth)
+              option(value=mesi.cod, selected)= mes[mesi.cod]
+            else
+              option(value=mesi.cod)= mes[mesi.cod]
+        | dia:
+        select#diaini( name='diaini', required)
+          for dia, index in configalldate.anio[lastyear].mes[lastmonth].dia
+            if(index == lastday)
+              option(value=dia, selected)= dia
+            else
+              option(value=dia)= dia
+        b &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+          u al:
+        |  año:
+        select#aniofin( name='aniofin', required)
+          for anio, index in configalldate.anio
+            if(index == lastyear)
+              option(value=anio.cod, selected)= anio.cod
+            else
+              //option(value=anio.cod)= anio.cod
+        | mes:
+        select#mesfin( name='mesfin', required)
+          for mesi, index in configalldate.anio[lastyear].mes
+            if(index == lastmonth)
+              option(value=mesi.cod, selected)= mes[mesi.cod]
+            else
+              //option(value=mesi.cod)= mes[mesi.cod]
+        | dia:
+        select#diafin( name='diafin', required)
+          for dia, index in configalldate.anio[lastyear].mes[lastmonth].dia
+            if(index == lastday)
+              option(value=dia, selected)= dia
+            else
+              //option(value=dia)= dia
+      input.btn.btn-success(type='submit', name='enviar', id='enviar', value='enviar')
+      script.
+          var users=!{JSON.stringify(users)}
+          var configalldate=!{JSON.stringify(configalldate)}
+          var configs=!{JSON.stringify(configs)}
+          var tramitec=null
+          var usuarioc=null
+          var calendar= configalldate
+          mes=!{JSON.stringify(mes)}
+          $("#tramite").on("change", function(){
+            if($("#tramite")[0].value=="todos"){
+                tramitec=null
+            }else{
+                configs.forEach(function(data, index){
+                    if(data._id==$("#tramite")[0].value){
+                        tramitec=data.calendar
+                    }
+                })
+            }
+            compose(tramitec, usuarioc)
+          })
+          $("#persona").on("change", function(){
+            if($("#persona")[0].value=="todos"){
+                usuarioc=null
+            }else{
+                users.forEach(function(user, index){
+                    if(user._id==$("#persona")[0].value){
+                        usuarioc=user.calendar
+                    }
+                })
+            }
+            compose(tramitec, usuarioc)
+          })
+
+          $("#anioini").on("change", function(){
+              var i=0
+              for(i; i<calendar.anio.length; i++){
+                  if($("#anioini")[0].value==calendar.anio[i].cod){
+                      break
+                  }
+              }
+              var j=0
+              for(j; j<calendar.anio.length; j++){
+                  if($("#aniofin")[0].value==calendar.anio[j].cod){
+                      break
+                  }
+              }
+              var textoaf=""
+              var textomf=""
+              var textodf=""
+              if(i<=j){
+                  for(var af=i; af<calendar.anio.length; af++){
+                      if(calendar.anio[af].cod == parseInt($('#aniofin')[0].value)){
+                          textoaf+='<option value="'+calendar.anio[af].cod+'" selected="">'+calendar.anio[af].cod+'</option>'
+                      }else{
+                          textoaf+='<option value="'+calendar.anio[af].cod+'" >'+calendar.anio[af].cod+'</option>'
+                      }
+                  }
+              }else{
+                  for(var af=i; af<calendar.anio.length; af++){
+                      if(af==i){
+                          textoaf+='<option value="'+calendar.anio[af].cod+'" selected="">'+calendar.anio[af].cod+'</option>'
+                          calendar.anio[af].mes.forEach(function(val, index){
+                              if(index== calendar.anio[af].mes.length-1){
+                                  textomf+='<option value="'+val.cod+'" selected="">'+mes[val.cod]+'</option>'
+                                  calendar.anio[af].mes[index].dia.forEach(function(var1, index1){
+                                      if(index1==calendar.anio[af].mes[index].dia.length-1){
+                                          textodf+='<option value="'+var1+'" selected="">'+var1+'</option>'
+                                      }else{
+                                          textodf+='<option value="'+var1+'" >'+var1+'</option>'
+                                      }
+                                  })
+                                  $("#diafin")[0].innerHTML=textodf
+                              }else{
+                                  textomf+='<option value="'+val.cod+'" >'+mes[val.cod]+'</option>'
+                              }
+                          })
+                          $("#mesfin")[0].innerHTML=textomf
+                      }else{
+                          textoaf+='<option value="'+calendar.anio[af].cod+'" >'+calendar.anio[af].cod+'</option>'
+                      }
+                  }
+              }
+              $("#aniofin")[0].innerHTML=textoaf
+              var textomi=""
+              calendar.anio[i].mes.forEach(function(val, index){
+                  if(index==0){
+                      textomi+='<option value="'+val.cod+'" selected="">'+mes[val.cod]+'</option>'
+                  }else{
+                      textomi+='<option value="'+val.cod+'" >'+mes[val.cod]+'</option>'
+                  }
+              })
+              $("#mesini")[0].innerHTML=textomi
+              var textodi=""
+              calendar.anio[i].mes[0].dia.forEach(function (val, index){
+                  if(index==0){
+                      textodi+='<option value="'+val+'" selected="">'+val+'</option>'
+                  }else{
+                      textodi+='<option value="'+val+'" >'+val+'</option>'
+                  }
+              })
+              $("#diaini")[0].innerHTML=textodi
+              console.log(JSON.stringify(calendar))
+          })
+
+          $("#aniofin").on("change", function(){
+              var i=0
+              for(i; i<calendar.anio.length; i++){
+                  if($("#aniofin")[0].value==calendar.anio[i].cod){
+                      break
+                  }
+              }
+              var textomf=""
+              calendar.anio[i].mes.forEach(function(val, index){
+                  if(index==calendar.anio[i].mes.length-1){
+                      textomf+='<option value="'+val.cod+'" selected="">'+mes[val.cod]+'</option>'
+                  }else{
+                      textomf+='<option value="'+val.cod+'" >'+mes[val.cod]+'</option>'
+                  }
+              })
+              $("#mesfin")[0].innerHTML=textomf
+              var textodf=""
+              calendar.anio[i].mes[calendar.anio[i].mes.length-1].dia.forEach(function (val, index){
+                  if(index==calendar.anio[i].mes[calendar.anio[i].mes.length-1].dia.length-1){
+                      textodf+='<option value="'+val+'" selected="">'+val+'</option>'
+                  }else{
+                      textodf+='<option value="'+val+'" >'+val+'</option>'
+                  }
+              })
+              $("#diafin")[0].innerHTML=textodf
+              console.log(JSON.stringify(calendar))
+          })
+          $("#mesini").on("change", function(){
+              var i=0
+              for(i; i<calendar.anio.length; i++){
+                  if($("#anioini")[0].value==calendar.anio[i].cod){
+                      break
+                  }
+              }
+              var j=0
+              for(j; j<calendar.anio[i].mes.length; j++){
+                  if($("#mesini")[0].value==calendar.anio[i].mes[j].cod){
+                      break
+                  }
+              }
+              var textodi=""
+              calendar.anio[i].mes[j].dia.forEach(function (val, index){
+                  if(index==0){
+                      textodi+='<option value="'+val+'" selected="">'+val+'</option>'
+                  }else{
+                      textodi+='<option value="'+val+'" >'+val+'</option>'
+                  }
+              })
+              $("#diaini")[0].innerHTML=textodi
+              if($("#anioini")[0].value==$("#aniofin")[0].value ){
+                  var k=0
+                  for(k; i<calendar.anio.length; k++){
+                      if($("#mesfin")[0].value==calendar.anio[i].mes[k].cod){
+                          break
+                      }
+                  }
+                  var textomf=""
+                  var textodf=""
+                  var flag=true
+                  //el flag asegura que mes fin este despues de mes ini cuando primero se seteo mes fin despues otra vez mes ini
+                  for(var jmf=j; jmf<calendar.anio[i].mes.length ;jmf++){
+                      if(calendar.anio[i].mes[jmf].cod==$("#mesfin")[0].value){
+                          textomf+='<option value="'+calendar.anio[i].mes[jmf].cod+'" selected="">'+mes[calendar.anio[i].mes[jmf].cod]+'</option>'
+                          for(var days=0; days<calendar.anio[i].mes[jmf].dia.length; days++){
+                              if(calendar.anio[i].mes[jmf].dia[days]==parseInt($("#diafin")[0].value)){
+                                  textodf+='<option value="'+calendar.anio[i].mes[jmf].dia[days]+'" selected="">'+calendar.anio[i].mes[jmf].dia[days]+'</option>'
+                                  flag=false
+                              }else{
+                                  textodf+='<option value="'+calendar.anio[i].mes[jmf].dia[days]+'" >'+calendar.anio[i].mes[jmf].dia[days]+'</option>'
+                              }
+                          }
+                      }else{
+                          textomf+='<option value="'+calendar.anio[i].mes[jmf].cod+'" >'+mes[calendar.anio[i].mes[jmf].cod]+'</option>'
+                      }
+                  }
+                  if(flag){
+                      var textomf=""
+                      var textodf=""
+                      for(var jmf=j; jmf<calendar.anio[i].mes.length; jmf++){
+                          if(jmf==j){
+                              textomf+='<option value="'+calendar.anio[i].mes[jmf].cod+'" selected="">'+mes[calendar.anio[i].mes[jmf].cod]+'</option>'
+                              for(var days=0; days<calendar.anio[i].mes[jmf].dia.length; days++){
+                                  if(days == calendar.anio[i].mes[jmf].dia.length-1){
+                                      textodf+='<option value="'+calendar.anio[i].mes[jmf].dia[days]+'" selected="">'+calendar.anio[i].mes[jmf].dia[days]+'</option>'
+                                  }else{
+                                      textodf+='<option value="'+calendar.anio[i].mes[jmf].dia[days]+'" >'+calendar.anio[i].mes[jmf].dia[days]+'</option>'
+                                  }
+                              }
+                          }else{
+                              textomf+='<option value="'+calendar.anio[i].mes[jmf].cod+'" >'+mes[calendar.anio[i].mes[jmf].cod]+'</option>'
+                          }
+                      }
+                  }
+                  $("#mesfin")[0].innerHTML=textomf
+                  $("#diafin")[0].innerHTML=textodf
+              }
+              console.log(JSON.stringify(calendar))
+          })
+          $("#mesfin").on("change", function(){
+              var i=0
+              for(i; i<calendar.anio.length; i++){
+                  if($("#aniofin")[0].value==calendar.anio[i].cod){
+                      break
+                  }
+              }
+              var j=0
+              for(j; j<calendar.anio[i].mes.length; j++){
+                  if($("#mesfin")[0].value==calendar.anio[i].mes[j].cod){
+                      break
+                  }
+              }
+              var textodf=""
+              calendar.anio[i].mes[j].dia.forEach(function (val, index){
+                  if(index==calendar.anio[i].mes[j].dia.length-1){
+                      textodf+='<option value="'+val+'" selected="">'+val+'</option>'
+                  }else{
+                      textodf+='<option value="'+val+'" >'+val+'</option>'
+                  }
+              })
+              $("#diafin")[0].innerHTML=textodf
+              console.log(JSON.stringify(calendar))
+          })
+          $("#diaini").on("change", function(){
+              if($("#anioini")[0].value==$("#aniofin")[0].value && $("#mesini")[0].value==$("#mesfin")[0].value){
+                  var i=0
+                  for(i; i<calendar.anio.length; i++){
+                      if($("#aniofin")[0].value==calendar.anio[i].cod){
+                          break
+                      }
+                  }
+                  var j=0
+                  for(j; j<calendar.anio[i].mes.length; j++){
+                      if($("#mesfin")[0].value==calendar.anio[i].mes[j].cod){
+                          break
+                      }
+                  }
+                  var textodf=""
+                  calendar.anio[i].mes[j].dia.forEach(function (val, index){
+                      if(val >= parseInt($("#diaini")[0].value)){
+                          if(index==calendar.anio[i].mes[j].dia.length-1){
+                              textodf+='<option value="'+val+'" selected="">'+val+'</option>'
+                          }else{
+                              console.log(val)
+                              console.log($("#diaini")[0].value)
+                                  textodf+='<option value="'+val+'" >'+val+'</option>'
+                          }
+                      }
+                  })
+                  $("#diafin")[0].innerHTML=textodf
+                  console.log(JSON.stringify(calendar))
+              }
+          })
+          function compose(tramitec, usuarioc){
+              if(tramitec){
+                  if(usuarioc){
+                      var anio = 0
+                      var mes = 0
+                      calendar={anio:[]}
+                      //ij lm rs
+                      for(var i=0; i<usuarioc.anio.length; i++){
+                          for(var j=0; j<tramitec.anio.length; j++){
+                              if(usuarioc.anio[i].cod==tramitec.anio[j].cod){
+                                  calendar.anio.push({cod:tramitec.anio[j].cod, mes:[]})
+                                  for(var l=0; l<usuarioc.anio[i].mes.length; l++){
+                                      for(var m=0; m<tramitec.anio[j].mes.length; m++){
+                                          if(usuarioc.anio[i].mes[l].cod==tramitec.anio[j].mes[m].cod){
+                                              calendar.anio[anio].mes.push({cod:tramitec.anio[j].mes[m].cod, dia:[]})
+                                              for(var r=0;r < usuarioc.anio[i].mes[l].dia.length; r++){
+                                                  for(var s=0;s<tramitec.anio[j].mes[m].dia.length;s++){
+                                                      if(usuarioc.anio[i].mes[l].dia[r]==tramitec.anio[j].mes[m].dia[s]){
+                                                          calendar.anio[anio].mes[mes].dia.push(tramitec.anio[j].mes[m].dia[s])
+                                                      }
+                                                  }
+                                              }
+                                              if(calendar.anio[anio].mes[mes].dia.length==0){
+                                                  calendar.anio[anio].mes.pop()
+                                              }else{
+                                                  mes++
+                                              }
+                                          }
+                                      }
+                                  }
+                                  if(calendar.anio[anio].mes.length==0){
+                                    calendar.anio.pop()
+                                  }else{
+                                    anio++
+                                  }
+                                  mes=0
+                              }
+                          }
+                      }
+                      if(calendar.anio.length==0){
+                          calendar=null
+                      }
+                      lastday(calendar)
+                  }else{
+                      calendar=tramitec
+                      lastday(tramitec)
+                  }
+              }else{
+                  if(usuarioc){
+                      calendar=usuarioc
+                      lastday(usuarioc)
+                  }else{
+                      calendar=configalldate
+                      lastday(configalldate)
+                  }
+              }
+              function lastday(calendar){
+                  mes=!{JSON.stringify(mes)}
+                  if(calendar){
+                      lastyear=calendar.anio.length-1
+                      lastmonth=calendar.anio[lastyear].mes.length-1
+                      lastday=calendar.anio[lastyear].mes[lastmonth].dia.length-1
+                      var texto1=""
+                      calendar.anio.forEach(function(val1, index1){
+                          if(index1==lastyear){
+                              texto1+='<option value="'+val1.cod+'" selected="">'+val1.cod+'</option>'
+                              $("#aniofin")[0].innerHTML='<option value="'+val1.cod+'" selected="">'+val1.cod+'</option>'
+                          }else{
+                              texto1+='<option value="'+val1.cod+'">'+val1.cod+'</option>'
+                          }
+                      })
+                      $("#anioini")[0].innerHTML=texto1
+
+                      var texto2=""
+                      calendar.anio[lastyear].mes.forEach(function(val2, index2){
+                          if(index2==lastmonth){
+                              texto2+='<option value="'+val2.cod+'" selected="">'+mes[val2.cod]+'</option>'
+                              $("#mesfin")[0].innerHTML='<option value="'+val2.cod+'" selected="">'+mes[val2.cod]+'</option>'
+                          }else{
+                              texto2+='<option value="'+val2.cod+'">'+mes[val2.cod]+'</option>'
+                          }
+                      })
+                      $("#mesini")[0].innerHTML=texto2
+
+                      var texto3=""
+                      calendar.anio[lastyear].mes[lastmonth].dia.forEach(function(val3, index3){
+                          if(index3==lastday){
+                              texto3+='<option value="'+val3+'" selected="">'+val3+'</option>'
+                              $("#diafin")[0].innerHTML='<option value="'+val3+'" selected="">'+val3+'</option>'
+                          }else{
+                              texto3+='<option value="'+val3+'">'+val3+'</option>'
+                          }
+                      })
+                      $("#diaini")[0].innerHTML=texto3
+                      $("#enviar")[0].disabled=false
+                  }else{
+                      $("#enviar")[0].disabled=true
+                      $("#anioini")[0].innerHTML=""
+                      $("#mesini")[0].innerHTML=""
+                      $("#diaini")[0].innerHTML=""
+                      $("#aniofin")[0].innerHTML=""
+                      $("#mesfin")[0].innerHTML=""
+                      $("#diafin")[0].innerHTML=""
+                  }
+              }
+          }
+  else
+    h2 No se encontro ningun documento registrado

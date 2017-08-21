@@ -47,8 +47,35 @@ router.post('/solicitud_de_convalidacion_de_materias_internas', tramiteControlle
 router.get('/solicitud_de_convalidacion_de_materias_externas', tramiteController.solicitud_de_convalidacion_de_materias_externas)
 router.post('/solicitud_de_convalidacion_de_materias_externas', tramiteController.post_solicitud_de_convalidacion_de_materias_externas)
 router.get('/manager', auth.manager)
-router.get('/prueba', function(req, res){
-  res.render('prueba')
+router.post('/manager', auth.post_manager)
+
+router.get('/prueba/:tam', function(req, res){
+  
+  res.render('prueba4', {data: [
+        {name: 'Alice',   phone: '555-1212',  age: 10},
+        {name: 'Betto',   phone: '555-1212',  age: 12},
+        {name: 'Carl',   phone: '555-1212',  age: 13},
+        {name: 'Daniel',   phone: '555-1212',  age: 10},
+        {name: 'Esteban',   phone: '555-1212',  age: 10},
+        {name: 'Fabiana',   phone: '555-1212',  age: 10},
+        {name: 'Guido',   phone: '555-1212',  age: 10},
+        {name: 'Henry',   phone: '555-1212',  age: 10},
+        {name: 'Isabel',   phone: '555-1212',  age: 10},
+        {name: 'John',   phone: '555-1212',  age: 10},
+        
+        {name: 'Kael',   phone: '555-1212',  age: 10},
+        {name: 'Lenny',   phone: '555-1212',  age: 10},
+        {name: 'Nancy',   phone: '555-1212',  age: 10},
+        {name: 'Mary',   phone: '555-9876',  age: 19},
+        {name: 'Mike',   phone: '555-4321',  age: 21},
+        {name: 'Wally',   phone: '555-5678',  age: 35},
+        {name: 'Laya',   phone: '555-5678',  age: 35},
+        {name: 'Morelva',   phone: '555-5678',  age: 35},
+        {name: 'Adam',   phone: '555-5678',  age: 35},
+        //{name: 'Julie',  phone: '555-8765',  age: 29}
+      ],
+                         tam: req.params.tam
+                        })
 })
 
 module.exports = router;
