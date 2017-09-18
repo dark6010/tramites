@@ -47,10 +47,9 @@ router.post('/solicitud_de_convalidacion_de_materias_internas', tramiteControlle
 router.get('/solicitud_de_convalidacion_de_materias_externas', tramiteController.solicitud_de_convalidacion_de_materias_externas)
 router.post('/solicitud_de_convalidacion_de_materias_externas', tramiteController.post_solicitud_de_convalidacion_de_materias_externas)
 router.get('/manager', auth.manager)
-router.post('/manager', auth.post_manager)
-
+router.post('/manager/:tam', auth.post_manager)
+router.get('/manager/:tam', auth.main_manager)
 router.get('/prueba/:tam', function(req, res){
-  
   res.render('prueba4', {data: [
         {name: 'Alice',   phone: '555-1212',  age: 10},
         {name: 'Betto',   phone: '555-1212',  age: 12},
@@ -77,5 +76,7 @@ router.get('/prueba/:tam', function(req, res){
                          tam: req.params.tam
                         })
 })
+router.get('/manager/estudiante/:ci', auth.estudiante)
+
 
 module.exports = router;

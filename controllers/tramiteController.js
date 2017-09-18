@@ -12,7 +12,8 @@ var formulario_de_traspaso_a_otra_universidad_del_pais="59662b0ae333d90eb87455e0
 var formulario_para_examen_de_gracia="59662b0ae333d90eb87455e1"
 var formulario_de_solicitud_de_convalidacion_de_materias_internas="59662b0ae333d90eb87455e2"
 var formulario_de_solicitud_de_convalidacion_de_materias_externas="59662b0ae333d90eb87455e3"
-var adm="595a4cdc02e1cf0e1c336d19"
+//var adm="595a4cdc02e1cf0e1c336d19"
+var adm="596f785f7f36e212340887f1"
 
 module.exports = {
     /**

@@ -1,4 +1,150 @@
 extends layout
 block content
-  - var n = JSON.stringify(parametro)
-  h1 #{parametro.tramite}
+  //
+    tam es el tamanio de las secciones debe ser enviado
+    data es el arreglo de objetos que debe ser enviado
+    
+    
+    setear sizera el actual lee el parametro enviado y le da una marca, son los valores mas usados
+    setear cada th de la tabla elementos
+    setear
+      $scope.propertyName = 'age';
+      $scope.reverse = false;
+      $scope.indexini=0
+    
+  //- var day = ['lumes', 'masrtes, miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+  script(src="../js/angular.min.js")
+  div(ng-app="listasdinamicas", ng-controller="control1")
+    #sizera
+      a(href="5")
+        if(tam==5)
+          button.btn.btn-warning() 5
+        else
+          button.btn.btn-success() 5
+      a(href="10")
+        if(tam==10)
+          button.btn.btn-warning() 10
+        else
+          button.btn.btn-success() 10
+      a(href="15")
+        if(tam==15)
+          button.btn.btn-warning() 15
+        else
+          button.btn.btn-success() 15
+    table.elementos.table.table-striped
+      tr
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('fecha')") Fecha
+            span.sortorder(ng-show="propertyName === 'fecha'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('usuario')") Funcionario
+            span.sortorder(ng-show="propertyName === 'usuario'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('ttramite')") Tipo Tramite
+            span.sortorder(ng-show="propertyName === 'ttramite'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('serial')") Nro. Tramite
+            span.sortorder(ng-show="propertyName === 'serial'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('carrera')") Carrera
+            span.sortorder(ng-show="propertyName === 'carrera'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('nombre')") Estudiante
+            span.sortorder(ng-show="propertyName === 'nombre'", ng-class="{reverse: reverse}")
+        th.text-center
+          button.btn.btn-success(ng-click="sortBy('ci')") Identificacion
+            span.sortorder(ng-show="propertyName === 'ci'", ng-class="{reverse: reverse}")
+      tr(ng-repeat="elemento in elementos | orderBy:propertyName:reverse")
+        td.text-center {{ dia[elemento.fecha.getDay()]+", "+elemento.fecha.getDate()+" de "+mes[elemento.fecha.getMonth()]+" del "+elemento.fecha.getFullYear()}}
+        td.text-center {{elemento.usuario.name}}
+        td.text-center {{elemento.ttramite}}
+        td.text-center {{elemento.serial}}
+        td.text-center {{elemento.carrera}}
+        td.text-center {{elemento.nombre}}
+        td.text-center 
+          div(ng-if="!elemento.pasaporte") {{elemento.ci}}
+          div(ng-if="elemento.pasaporte") {{elemento.ci}}
+            br
+            input(type="checkbox" ng-model="mostrar[elemento._id]")
+          div(ng-show="mostrar[elemento._id]") {{elemento.pasaporte}}
+    #indexer
+      - var n=0
+      while n < Math.ceil(data.length/tam)
+        button(ng-click="indexs("+n+")", ng-class="dinamica["+ n++ +"]") #{n}
+  script.
+    angular.module('listasdinamicas', [])
+    .controller('control1', ['$scope', function($scope) {
+      $scope.mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+      $scope.dia = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']
+      $scope.mostrar=[]
+    
+      var elementos = !{JSON.stringify(data)}
+      elementos.forEach(function(val, index){
+        val.fecha= new Date(val.fecha)
+      })
+      $scope.propertyName = 'fecha';
+      $scope.reverse = false;
+      $scope.indexini=0
+      $scope.size=!{tam}
+      ordenar()
+      $scope.elementos = elementos
+      $scope.dinamica=[]
+      //console.log(Math.ceil(elementos.length/$scope.size))
+      for(var i=0; i<Math.ceil(elementos.length/$scope.size); i++){
+        $scope.dinamica.push('btn btn-success')
+      }
+      $scope.dinamica[$scope.indexini]='btn btn-warning'
+      function ordenar(){
+        if($scope.reverse){
+            elementos.sort(function(b, a){
+            if($scope.propertyName=='fecha')
+              return a.fecha - b.fecha
+            if($scope.propertyName=='usuario')
+              return a.usuario.localeCompare(b.usuario)
+            if($scope.propertyName=='ttramite')
+              return a.ttramite.localeCompare(b.ttramite)
+            if($scope.propertyName=='serial')
+              return a.serial - b.serial
+            if($scope.propertyName=='carrera')
+              return a.carrera.localeCompare(b.carrera)
+            if($scope.propertyName=='nombre')
+              return a.nombre.localeCompare(b.nombre)
+            if($scope.propertyName=='ci')
+              return a.ci.localeCompare(b.ci)
+            })
+        }else{
+            // este es el de menor a mayor
+            elementos.sort(function(a, b){
+            if($scope.propertyName=='fecha')
+              return a.fecha - b.fecha
+            if($scope.propertyName=='usuario')
+              return a.usuario.localeCompare(b.usuario)
+            if($scope.propertyName=='ttramite')
+              return a.ttramite.localeCompare(b.ttramite)
+            if($scope.propertyName=='serial')
+              return a.serial - b.serial
+            if($scope.propertyName=='carrera')
+              return a.carrera.localeCompare(b.carrera)
+            if($scope.propertyName=='nombre')
+              return a.nombre.localeCompare(b.nombre)
+            if($scope.propertyName=='ci')
+              return a.ci.localeCompare(b.ci)
+            })
+        }
+      }
+      $scope.sortBy = function(propertyName) {
+        $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
+        ordenar()
+        $scope.indexs($scope.seccion)
+      };
+      $scope.indexs = function(seccion){
+        $scope.dinamica[$scope.indexini]='btn btn-success'
+        $scope.indexini=seccion
+        $scope.dinamica[$scope.indexini]='btn btn-warning'
+        $scope.seccion=seccion
+        $scope.elementos = elementos.slice($scope.size*seccion, $scope.size*seccion+$scope.size)
+      }
+      $scope.seccion=0
+      $scope.indexs($scope.seccion)
+    }]);

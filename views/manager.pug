@@ -8,7 +8,7 @@ block content
     }
     // confill alldate esta basado solo en todos los tramites de la colecion copnfigs
   if(configalldate.anio.length)
-    form(method="post", action='manager')
+    form(method="post", action='manager/5')
       h3 informes de certificados emitidos
       h4
         |  tramite:
@@ -23,7 +23,7 @@ block content
             if(user.calendar && user.calendar.anio)
               option(value=user._id)= user.name
           option(value=todos, selected) todos
-      h4 
+      h4
         b
           u del:
         |  año:
@@ -70,7 +70,7 @@ block content
               option(value=dia, selected)= dia
             else
               //option(value=dia)= dia
-      input.btn.btn-success(type='submit', name='enviar', id='enviar', value='enviar')
+      input.btn.btn-success(type='submit', name='enviar', id='enviar')
       script.
           var users=!{JSON.stringify(users)}
           var configalldate=!{JSON.stringify(configalldate)}
@@ -124,6 +124,14 @@ block content
                   for(var af=i; af<calendar.anio.length; af++){
                       if(calendar.anio[af].cod == parseInt($('#aniofin')[0].value)){
                           textoaf+='<option value="'+calendar.anio[af].cod+'" selected="">'+calendar.anio[af].cod+'</option>'
+                          calendar.anio[af].mes.forEach(function(mesf, indexmesf){
+                            if(calendar.anio[af].mes[indexmesf].cod == parseInt($('#mesfin')[0].value)){
+                                textomf+='<option value="'+calendar.anio[af].mes[indexmesf].cod+'" selected="">'+mes[calendar.anio[af].mes[indexmesf].cod]+'</option>'
+                            }else{
+                                textomf+='<option value="'+calendar.anio[af].mes[indexmesf].cod+'" >'+mes[calendar.anio[af].mes[indexmesf].cod]+'</option>'
+                            }
+                          })
+                          $("#mesfin")[0].innerHTML=textomf
                       }else{
                           textoaf+='<option value="'+calendar.anio[af].cod+'" >'+calendar.anio[af].cod+'</option>'
                       }

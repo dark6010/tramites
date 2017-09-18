@@ -50,3 +50,11 @@ body {
 .sortorder.reverse:after {
   content: '\25bc';
 }
+@media print{
+  #sizera{
+    display: none
+  }
+  #{
+    display: none
+  }
+}

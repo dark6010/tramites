@@ -4,9 +4,9 @@ var User = require("../models/User");
 var config= require("../models/configModel")
 var Tramite = require('../models/tramiteModel.js')
 
-var adm="595a4cdc02e1cf0e1c336d19"
+var adm="596f785f7f36e212340887f1"
 var userController = {};
-
+var datostramites
 
 // Restrict access to root page
 
@@ -72,24 +72,45 @@ userController.manager = function(req, res){
 userController.post_manager = function(req, res){
   if(req.user && req.user._id==adm){
     var parametro= {tramite: req.body.tramite, persona: req.body.persona, anioini:req.body.anioini, mesini:req.body.mesini, diaini:req.body.diaini, aniofin:req.body.aniofin, mesfin:req.body.mesfin, diafin:req.body.diafin}
+    //console.log(parametro)
     var date= new Date(req.body.anioini, req.body.mesini, req.body.diaini)
-//    var date= new Date("2012, 10, 23")
-    console.log(date)
     Tramite.find({fecha: {$gte: new Date(req.body.anioini, req.body.mesini, req.body.diaini),
-                          $lte:new Date(req.body.aniofin, req.body.mesfin, req.body.diafin)}}
-                 , function(err, tramites){
+                          $lte: new Date(req.body.aniofin, req.body.mesfin, req.body.diafin, 23, 59,59)}}).populate({ path: 'usuario', select: 'name'}).exec(
+      function(err, tramites){
       if(err){
         res.render('error', {error: "ocurrio algun error al buscar esos tramites"})
       }else{
-        console.log(tramites)
+        //console.log(tramites)
+        var arreglo=[]
+        tramites.forEach(function(val, index){
+          arreglo.push(val)
+        })
+        datostramites= tramites
+        
+        res.render('post_manager', {data: tramites, tam: req.params.tam})
       }
     })
-    res.render('post_manager', {parametro: parametro})
   }else{
     res.redirect('/')
   }
 }
-//
+userController.main_manager = function(req, res){
+  if(req.user && req.user._id==adm){
+    res.render('post_manager', {data: datostramites, tam: req.params.tam})
+  }else{
+    res.redirect('/')
+  }
+}
+
+userController.estudiante = function(req, res){
+  if(req.user && req.user._id==adm){
+    Tramite.find({ci: req.params.ci}, function (err, tramites) {
+      console.log(tramites)
+    });
+  }else{
+    res.redirect('/')
+  }
+}
 function collapse(configs){
   fecha={anio:[]}
   configs.forEach(function(data, indexdata){
