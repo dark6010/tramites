@@ -5,6 +5,7 @@ var tramiteController = require('../controllers/tramiteController.js');
 
 // restrict index for logged in user only
 router.get('/', auth.home);
+router.get('/tramites', auth.tramites);
 
 // route to register page
 router.get('/register', auth.register);
@@ -77,6 +78,9 @@ router.get('/prueba/:tam', function(req, res){
                         })
 })
 router.get('/manager/estudiante/:ci', auth.estudiante)
+router.get('/perfil', auth.perfil)
+router.get('/editperfil', auth.editperfil)
+router.post('/editperfil', auth.post_editperfil)
 
 
 module.exports = router;

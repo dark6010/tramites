@@ -1,0 +1,53 @@
+extends layout
+block content
+  .container
+  
+  .row
+    .col-md-2
+    .col-md-8.text-right
+      a(href="/editperfil")
+        button.btn.btn-success editar
+      table.table.table-striped.text-center
+        tr
+          th.text-center atributo
+          th.text-center valor
+        tr
+          td Username:
+          td= user.username
+        tr
+          td Nombre Completo:
+          td= user.username
+        tr
+          td Fecha Nacimiento:
+          if(user.nacimiento)
+            td #{dia[user.nacimiento.getDate()]}, de #{mes[user.nacimiento.getMonth()]} de #{user.nacimiento.getFullYear()}
+          else
+            td
+        tr
+          td Direccion:
+          td= user.direccion
+        tr
+          td Celular:
+          td= user.celular
+        tr
+          td Telefono:
+          td= user.telefono
+        tr
+          td Correo:
+          td= user.correo
+    .col-md-2
+
+      
+      
+
+  //
+    username: String,
+    password: String,
+    name: String,
+    calendar: {},
+    tramites: []
+    nacimiento: Date,
+    direccion: String,
+    celular: String,
+    telefono: String,
+    correo: String

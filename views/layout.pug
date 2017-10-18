@@ -136,7 +136,8 @@
   "FAC. CIENCIAS VETERINARIAS",
   "FAC. UNID.ACAD.DESC.SAN SIMON CONOS",
   "FAC. ENFERMERIA",
-  ]
+  ];
+  var admin="596f785f7f36e212340887f1"
 doctype html
 html
   head
@@ -146,8 +147,29 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="/js/qrcode.min.js")
     script(src='/js/jquery.min.js')
-  body
-    nav.navbar.navbar-default
+  body(data-spy="scroll" id="myPage" data-target=".navbar" data-offset="60")
+    style.
+      a.navbar-brand:hover {
+        color:white;
+      }
+      a.navbar-brand{
+        color: #cca;
+      }
+      ul li a{
+        color: #cca
+      }
+      #welcome{
+        border-radius: 2em;
+        color: #cca;
+        transition-duration: 3s;
+      }
+      #welcome:hover{
+        background-color: #204d74;
+        color: #ff0;
+        font-size: 2.2em;
+      }
+      
+    nav.navbar#nav(style="background-color: #204d74;")
       div.container-fluid
         div.navbar-header
           button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
@@ -155,7 +177,7 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Universidad Mayor de San Simon
+          a.navbar-brand(href='/') Universidad Mayor de San Simon
         div.collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
           ul.nav.navbar-nav.navbar-right
             if (!user)
@@ -166,14 +188,38 @@ html
                 a(href='/register') Registrate
             if (user)
               li
-                a Bienvenido #{user.name}
-              li
-                a(href='/') Inicio
-              li
-                a(href='/logout') Salir
+                a#welcome Bienvenido #{user.name}
+              li 
+                .dropdown
+                  button.btn.btn-default.dropdown-toggle(type="button" data-toggle="dropdown") menu
+                    span.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="/") Inicio
+                    li.divider
+                    li
+                      a(href="/tramites") Tramites
+                    
+                    li
+                      a(href="/perfil") Perfil
+                    if(user._id==admin)
+                      li
+                        a(href="/register") Registrar usuarios
+                      li
+                        a(href="/manager") Informes
+                      li
+                    li.divider
+                    li
+                      a(href='/logout') Salir
 
     div.container
       div.content
         block content
 
     script(src='/js/bootstrap.min.js')
+    footer.text-center
+      h6 Este sitio, fue desarrollado por el area informatica del departamento de de registros e inscripciones.
+      | Copyright © 2000-2017 . Todos los derechos reservados.
+      
+      h4 informacion de contacto: 
+        a(href="href=mailto:grover.plaza@gmail.com") grover.plaza@gmail.com

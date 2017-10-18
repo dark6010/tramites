@@ -1,36 +1,201 @@
-
 extends layout
 
 block content
-  h1 Sistema de gesti&oacute;n de tr&aacute;mites en registros e inscripciones
-  br
-  p
-    ol
-      li
-        a(href='certificado_de_estudios') certificado de estudios
-      li
-        a(href='formulario_de_admision_especial') formulario de admision especial
-      li
-        a(href='formulario_de_reincorporacion') formulario de reincorporacion
-      //
-        li
-          a(href='suspencion_temporal') formulario de suspencion temporal
-      li
-        a(href='estudio_simultaneo') formulario de estudio simultaneo
-      //
-        li
-          a(href='cambio_de_carrera') formulario de cambio de carrera
-      li
-        a(href='traspaso_a_otra_universidad_del_pais') formulario de traspaso a otra universidad del pais
-      //
-        li
-          a(href='traspaso_de_otra_universidad_del_pais') formulario de traspaso de otra universidad del pais
-        li
-          a(href='traspaso_del_exterior') formulario de traspaso del exterior
-      li
-        a(href='formulario_para_examen_de_gracia') formulario para examen de gracia
-      li
-        a(href='solicitud_de_convalidacion_de_materias_internas') formulario de solicitud de convalidacion de materias internas
-      //este esta terminado pero debido a una nueva politica de la umss este es inhabilitado
-        li
-          a(href='solicitud_de_convalidacion_de_materias_externas') formulario de solicitud de convalidacion de materias externas
+  div(data-spy="scroll" id="mapa" data-target=".navbar" data-offset="60")
+    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+     integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+     crossorigin="")
+    script(src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+     integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+     crossorigin="")
+    if(!user)
+      .prod
+        nav.navbar.navbar-default.navbar-fixed-top
+          .container(style="background-color: #f4511e;")
+            .navbar-header
+              button.navbar-toggle(type="button" data-toggle="collapse" data-target="#myNavbar")
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              a.navbar-brand(href="/") U.M.S.S
+            .collapse.navbar-collapse#myNavbar
+              ul.nav.navbar-nav.navbar-right
+                li
+                  a(href="#mapa") MAPA
+                li
+                  a(href="#Carousel") CRIPTICOS
+                li
+                  a(href="#acerca") ACERCA
+                li
+                  a(href="#servicios") SERVICIOS
+                li
+                  a(href="#portafolio") PORTAFOLIO
+                li
+                  a(href="#contactanos") CONTACTANOS
+    #mapid(style="height: 180px;margin-top: -15px;")
+    .jumbotron.text-center
+      h1 Registros e Inscripciones
+      p algo acerca de registros e inscripciones
+    //esto es el carusel
+    #Carousel.carousel.slide(data-ride="carousel")
+      ol.carousel-indicators
+        li.active(data-target="#Carousel" data-slide-to="0")
+        li(data-target="#Carousel" data-slide-to="1")
+        li(data-target="#Carousel" data-slide-to="2")
+      .carousel-inner
+        .item.active
+          img(src="images/la.jpg" alt="Los Angeles" style="width:100%;")
+          .carousel-caption
+            h3 Los Angeles
+            p LA is always so much fun!
+        .item
+          img(src="images/chicago.jpg" alt="Chicago" style="width:100%;")
+          .carousel-caption
+            h3 Chicago
+            p Thank you, Chicago!
+        .item
+          img(src="images/ny.jpg" alt="New York" style="width:100%;")
+          .carousel-caption
+            h3 New York
+            p We love the Big Apple!
+      a.left.carousel-control(href="#Carousel" data-slide="prev")
+        span.glyphicon.glyphicon-chevron-left
+        span.sr-only Previous
+      a.right.carousel-control(href="#Carousel" data-slide="next")
+        span.glyphicon.glyphicon-chevron-right
+        span.sr-only Next
+    //mision viosn de la empresa o insticion
+    #acerca.container-fluid
+      .row
+        .col-sm-8
+          h2 Acerca de registros e inscripciones
+          h4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        .col-sm-4
+         .glyphicon.glyphicon-signal.logo(style="font-size: 200px")
+    .container-fluid.bg-grey
+      .row
+        .col-sm-4
+          .glyphicon.glyphicon-globe.logo(style="font-size: 200px")
+        .col-sm-8
+          h2 Nuestros Valores
+          h4
+            strong MISIÓN:
+            |Mauris gravida diam ac lectus aliquet pharetra. Nullam auctor ultricies leo quis scelerisque. Pellentesque posuere nec orci non lobortis. Praesent dignissim dui vitae dui accumsan cursus. Vivamus quis auctor est. Aliquam a finibus odio, sit amet scelerisque nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas sit amet libero nisi. Donec porttitor quam vitae elit tempor aliquet. Suspendisse eget nisl consequat, fermentum massa a, cursus lacus.
+          H4
+            strong VISIÓN:
+            |Etiam venenatis tellus vitae ex malesuada venenatis. Nulla pulvinar tellus et porttitor sagittis. Praesent non massa a nibh tempus convallis eu id leo. Morbi gravida eget erat vel accumsan. Nam bibendum, sem in consectetur aliquam, dui augue vestibulum sem, a consectetur quam turpis sed tortor. Phasellus ornare tempor libero vel fringilla. Nullam ut ante eget sem dictum varius. Vestibulum convallis lectus eget condimentum cursus. Aenean tempus tortor et risus cursus iaculis. Donec sed auctor mauris. Nulla imperdiet eu mi sodales euismod. Duis iaculis, neque et facilisis euismod, lorem risus tincidunt urna, nec semper neque lorem ut nisi.
+    #servicios.container-fluid.text-center
+      h2 SERVICIOS
+      h4 que es lo que ofertamos
+      br
+      .row
+        .col-sm-4
+          span.glyphicon.glyphicon-off.logo-small
+          h4 PODER
+          p Lorem ipsum dolor sit amet
+        .col-sm-4
+          span.glyphicon.glyphicon-heart.logo-small
+          h4 AMOR
+          p Lorem ipsum dolor sit amet..
+        .col-sm-4
+          span.glyphicon.glyphicon-lock.logo-small
+          h4 TRABAJOS ECHOS
+          p Lorem ipsum dolor sit amet..
+      br
+      br
+      .row
+        .col-sm-4
+          span.glyphicon.glyphicon-leaf.logo-small
+          h4 VERDE
+          p Lorem ipsum dolor sit amet..
+        .col-sm-4
+          span.glyphicon.glyphicon-certificate.logo-small
+          h4 CERTIFICADO
+          p Lorem ipsum dolor sit amet..
+        .col-sm-4
+          span.glyphicon.glyphicon-wrench.logo-small
+          h4(style="color:#303030;") TRABAJO DURO
+          p Lorem ipsum dolor sit amet..
+      // estos es el portafolio
+    #portafolio.container-fluid.text-center.bg-grey
+      h2 PORTAFOLIO
+      h4 que hemos creado
+      .row.text-center
+        .col-sm-4
+          .thumbnail
+            img(src="images/paris.jpg" alt="Paris")
+            p
+              strong Paris:
+            p Si, nosotros construimos Paris.
+        .col-sm-4
+          .thumbnail
+            img(src="images/newyork.jpg" alt="New York")
+            p
+              strong New York:
+            p Si, nosotros construimos New York.
+        .col-sm-4
+          .thumbnail
+            img(src="images/sanfran.jpg" alt="San Francisco")
+            p
+              strong San Francisco:
+            p Si, nosotros construimos San Francisco.
+      //seccion de contactame
+    .container-fluid.bg-grey
+    #contactanos.h2.text-center CONTACTANOS
+    .row
+      .col-sm-5
+        p puedes contactar con nosotros en horario de oficina
+        p
+          span.glyphicon.glyphicon-map-marker Chicago, US
+        p
+          span.glyphicon.glyphicon-phone +00 1515151515
+        p 
+          span.glyphicon.glyphicon-envelope myemail@something.com
+      .col-sm-7
+        .row
+          .col-sm-6.form-group
+            input.form-control#name(name="name" placeholder="Name" type="text" required)
+          .col-sm-6.form-group
+            input.form-control#email(name="email" placeholder="Email" type="email" required)
+
+        textarea.form-control#comments(name="comments" placeholder="Comment" rows="5")
+        br
+        .row
+          .col-sm-12.form-group
+            button.btn.btn-default.pull-right(type="submit") Send
+      //seccion dl mapa
+    script.
+      var mymap = L.map('mapid').setView([-17.394070, -66.147599], 16);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        //attribution: 'gp',
+        id: 'mapbox.streets'
+      }).addTo(mymap);
+      var marker = L.marker([-17.394070, -66.147599]).bindPopup("<b>Registros e Inscripciones</b><br>Te esperamos con tus documentos, para servirte.").openPopup().addTo(mymap);
+    script.
+      $(document).ready(function(){i
+      // Add smooth scrolling to all links in navbar + footer link
+      $(".prod.navbar a, prod.footer a[href='#mapa']").on('click', function(event) {
+
+       // Make sure this.hash has a value before overriding default behavior
+      if (this.hash !== "") {
+
+        // Prevent default anchor click behavior
+        event.preventDefault();
+
+        // Store hash
+        var hash = this.hash;
+
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 900, function(){
+
+          // Add hash (#) to URL when done scrolling (default click behavior)
+          window.location.hash = hash;
+          });
+        } // End if
+      });
+      })

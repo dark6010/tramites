@@ -1,5 +1,5 @@
 body {
-  background-color: #eee;
+  background-color: #fff;
 }
 
 .form-signin {
@@ -49,6 +49,68 @@ body {
 }
 .sortorder.reverse:after {
   content: '\25bc';
+}
+.dropdown{
+  padding-top: .5em;
+}
+.jumbotron {
+    background-color: red;
+    /*background-color: #f4511e; /* Orange */
+    color: #ffffff;
+    margin-bottom: 0;
+}
+.carousel{
+  padding-top: 50px;
+}
+#acerca{
+  padding-top: 50px
+}
+#portafolio{
+  padding-top: 50px
+}
+#servicios{
+  padding-top: 50px
+}
+#constactanos{
+  padding-top: 50px
+}
+
+/*nav bar&*/
+.prod .navbar{
+    margin-bottom: 0;
+    
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+}
+
+.prod .navbar li a, .prod .navbar .navbar-brand {
+    color: #fff !important;
+}
+
+.prod .navbar-nav li a:hover, .prod .navbar-nav li.active a {
+    color: #f4511e !important;
+    background-color: #fff !important;
+}
+
+.prod .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+/*end of navbar*/
+.logo-small{
+    color: blue;
+    font-size: 50px;
+}
+.logo {
+    color: blue;
+    font-size: 200px;
+}
+.leaflet-control-attribution{
+visibility: hidden !important;
 }
 @media print{
   #sizera{

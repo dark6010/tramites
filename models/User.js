@@ -7,7 +7,15 @@ var UserSchema = new Schema({
     password: String,
     name: String,
     calendar: {},
-    tramites: String
+    tramites: [{
+      	type: Schema.Types.ObjectId,
+	 	    ref: 'tramite'
+    }],
+    nacimiento: Date,
+    direccion: String,
+    celular: String,
+    telefono: String,
+    correo: String
 });
 
 UserSchema.plugin(passportLocalMongoose);

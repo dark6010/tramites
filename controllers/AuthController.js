@@ -13,11 +13,17 @@ var datostramites
 userController.home = function(req, res) {
   res.render('index', { user : req.user });
 };
-
+userController.tramites = function(req, res) {
+  if(req.user){
+    res.render('tramites', { user : req.user });
+  }else{
+    res.redirect('/')
+  }
+};
 // Go to registration page
 userController.register = function(req, res) {
   if(req.user && req.user._id==adm)
-    res.render('register');
+    res.render('register', {user: req.user});
   else
     res.redirect('/')
 };
@@ -59,10 +65,10 @@ userController.logout = function(req, res) {
 };
 userController.manager = function(req, res){
   if(req.user && req.user._id==adm){
-    User.find(function (err, users) {
+    User.find(function (err, users){
       config.find(function(err, configs){
         var configalldate= collapse(configs)
-        res.render('manager', {users: users, configs: configs, configalldate:configalldate})
+        res.render('manager', {users: users, configs: configs, configalldate:configalldate, user:req.user})
       })
     });
   }else{
@@ -87,7 +93,7 @@ userController.post_manager = function(req, res){
         })
         datostramites= tramites
         
-        res.render('post_manager', {data: tramites, tam: req.params.tam})
+        res.render('post_manager', {data: tramites, tam: req.params.tam, user:req.user})
       }
     })
   }else{
@@ -96,7 +102,7 @@ userController.post_manager = function(req, res){
 }
 userController.main_manager = function(req, res){
   if(req.user && req.user._id==adm){
-    res.render('post_manager', {data: datostramites, tam: req.params.tam})
+    res.render('post_manager', {data: datostramites, tam: req.params.tam, user:req.user})
   }else{
     res.redirect('/')
   }
@@ -107,6 +113,27 @@ userController.estudiante = function(req, res){
     Tramite.find({ci: req.params.ci}, function (err, tramites) {
       console.log(tramites)
     });
+  }else{
+    res.redirect('/')
+  }
+}
+userController.perfil= function(req, res){
+  if(req.user){
+    res.render('perfil', {user:req.user})
+  }else{
+    res.redirect('/')
+  }
+}
+userController.editperfil= function(req, res){
+  if(req.user){
+    res.render('editperfil', {user:req.user})
+  }else{
+    res.redirect('/')
+  }
+}
+userController.post_editperfil= function(req, res){
+  if(req.user){
+    res.render('perfil', {user:req.user})
   }else{
     res.redirect('/')
   }
@@ -180,5 +207,6 @@ function collapse(configs){
   }
   return fecha
 }
+
 
 module.exports = userController;
